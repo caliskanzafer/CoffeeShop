@@ -6,6 +6,7 @@ class ColorConstant {
   ///
 
   final Color backgroundColor = Color(0xFFEFF1FA);
+  final Color headline = Color(0xFF353E5A);
 
   ///
   /// AppBar

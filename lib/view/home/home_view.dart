@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:coffee_shop/components/appBar/profile_photo.dart';
 import 'package:coffee_shop/components/appBar/search_button.dart';
 import 'package:coffee_shop/constants/color_constant.dart';
+import 'package:coffee_shop/constants/text_style_constant.dart';
+import 'package:coffee_shop/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_shop/constants/size_constant.dart';
 
@@ -12,7 +14,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _currentIndex = 1;
+  var _currentIndex = NavBottomMenuPages.HOME;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +22,19 @@ class _HomeViewState extends State<HomeView> {
       appBar: _appBar(context),
       body: Column(
         children: [
-          Text('Good Morning, Zafer!'),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Good morning,',
+                style: context.baslik,
+              ),
+              Text(
+                'Zafer!',
+                style: context.baslik,
+              ),
+            ],
+          ),
           Row(
             children: [
               Column(
@@ -82,22 +96,22 @@ class _HomeViewState extends State<HomeView> {
         children: [
           iconButton(
               iconData: Icons.blur_circular,
-              selected: _currentIndex == 1 ? true : false,
-              index: 1),
+              selected: _currentIndex == NavBottomMenuPages.HOME ? true : false,
+              index: NavBottomMenuPages.HOME),
           iconButton(
               iconData: Icons.tag,
-              selected: _currentIndex == 2 ? true : false,
-              index: 2),
+              selected: _currentIndex == NavBottomMenuPages.BUY ? true : false,
+              index: NavBottomMenuPages.BUY),
           iconButton(
               iconData: Icons.shopping_cart,
-              selected: _currentIndex == 3 ? true : false,
-              index: 3),
+              selected: _currentIndex == NavBottomMenuPages.CART ? true : false,
+              index: NavBottomMenuPages.CART),
         ],
       ),
     );
   }
 
-  IconButton iconButton({IconData iconData, bool selected, int index}) {
+  IconButton iconButton({IconData iconData, bool selected, var index}) {
     return IconButton(
       icon: Icon(
         iconData,
