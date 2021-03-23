@@ -15,7 +15,7 @@ class ProfilePhoto extends StatelessWidget {
       radius: context.dynamicSize(0.05),
       backgroundColor: ColorConstant().profilePictureBorder,
       child: CircleAvatar(
-        radius: context.dynamicSize(0.045),
+        radius: context.dynamicSize(0.04),
         backgroundImage: NetworkImage('$imageURL'),
       ),
     );
