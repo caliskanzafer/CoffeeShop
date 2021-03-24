@@ -3,3 +3,9 @@ enum NavBottomMenuPages {
   BUY,
   CART,
 }
+
+enum Categories {
+  RECENT_ORDER,
+  TEA,
+  COFFEE,
+}

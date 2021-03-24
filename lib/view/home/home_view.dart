@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:coffee_shop/components/appBar/profile_photo.dart';
 import 'package:coffee_shop/components/appBar/search_button.dart';
+import 'package:coffee_shop/components/home/sized_box.dart';
 import 'package:coffee_shop/constants/color_constant.dart';
 import 'package:coffee_shop/constants/text_style_constant.dart';
 import 'package:coffee_shop/constants/enums.dart';
@@ -14,7 +15,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  var _currentIndex = NavBottomMenuPages.HOME;
+  var _currentPageIndex = NavBottomMenuPages.HOME;
+  var _currentCategoryIndex = Categories.RECENT_ORDER;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,30 +39,37 @@ class _HomeViewState extends State<HomeView> {
           ),
           Row(
             children: [
-              Column(
-                children: [
-                  Container(
-                    color: Colors.red,
-                    height: 100,
-                    width: 100,
-                    child: Transform.rotate(
-                      angle: pi / -2,
-                      child: Text('hello'),
+              Padding(
+                padding: EdgeInsets.all(context.dynamicSize(0.007)),
+                child: Column(
+                  children: [
+                    _categoriesBox(
+                        'Recent Orders',
+                        _currentCategoryIndex == Categories.RECENT_ORDER
+                            ? true
+                            : false,
+                        Categories.RECENT_ORDER),
+                    CustomSizedBox(
+                      height: 0.06,
                     ),
-                  ),
-                  Container(
-                    color: Colors.blue,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Container(
-                    color: Colors.green,
-                    height: 100,
-                    width: 100,
-                  ),
-                ],
+                    _categoriesBox(
+                        'Tea',
+                        _currentCategoryIndex == Categories.TEA ? true : false,
+                        Categories.TEA),
+                    CustomSizedBox(
+                      height: 0.06,
+                    ),
+                    _categoriesBox(
+                        'Coffee',
+                        _currentCategoryIndex == Categories.COFFEE
+                            ? true
+                            : false,
+                        Categories.COFFEE),
+                  ],
+                ),
               ),
               Expanded(
+                flex: 10,
                 child: Container(
                   color: Colors.amber,
                   width: double.infinity,
@@ -72,6 +81,22 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       bottomNavigationBar: navBarMenu(context),
+    );
+  }
+
+  GestureDetector _categoriesBox(String text, bool isSelected, var index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentCategoryIndex = index;
+        });
+      },
+      child: RotatedBox(
+        quarterTurns: 3,
+        child: RichText(
+            text:
+                TextSpan(text: '$text', style: context.categories(isSelected))),
+      ),
     );
   }
 
@@ -96,15 +121,18 @@ class _HomeViewState extends State<HomeView> {
         children: [
           iconButton(
               iconData: Icons.blur_circular,
-              selected: _currentIndex == NavBottomMenuPages.HOME ? true : false,
+              selected:
+                  _currentPageIndex == NavBottomMenuPages.HOME ? true : false,
               index: NavBottomMenuPages.HOME),
           iconButton(
               iconData: Icons.tag,
-              selected: _currentIndex == NavBottomMenuPages.BUY ? true : false,
+              selected:
+                  _currentPageIndex == NavBottomMenuPages.BUY ? true : false,
               index: NavBottomMenuPages.BUY),
           iconButton(
               iconData: Icons.shopping_cart,
-              selected: _currentIndex == NavBottomMenuPages.CART ? true : false,
+              selected:
+                  _currentPageIndex == NavBottomMenuPages.CART ? true : false,
               index: NavBottomMenuPages.CART),
         ],
       ),
@@ -122,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       onPressed: () {
         setState(() {
-          _currentIndex = index;
+          _currentPageIndex = index;
         });
       },
     );

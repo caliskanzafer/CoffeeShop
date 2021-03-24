@@ -64,6 +64,10 @@ flutter:
     - family: AbrilFatface
       fonts:
         - asset: fonts/AbrilFatface-Regular.ttf
+        
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-SemiBold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
