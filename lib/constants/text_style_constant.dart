@@ -14,5 +14,5 @@ extension TextStyleExtension on BuildContext {
           ? ColorConstant().menuEnableColor
           : ColorConstant().menuDisableColor,
       fontFamily: 'OpenSans',
-      fontSize: this.dynamicSize(0.03));
+      fontSize: this.dynamicSize(0.025));
 }

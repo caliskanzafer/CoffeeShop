@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:coffee_shop/components/appBar/profile_photo.dart';
 import 'package:coffee_shop/components/appBar/search_button.dart';
+import 'package:coffee_shop/components/home/message_text.dart';
 import 'package:coffee_shop/components/home/sized_box.dart';
 import 'package:coffee_shop/constants/color_constant.dart';
 import 'package:coffee_shop/constants/text_style_constant.dart';
@@ -19,68 +18,126 @@ class _HomeViewState extends State<HomeView> {
   var _currentCategoryIndex = Categories.RECENT_ORDER;
   @override
   Widget build(BuildContext context) {
+    final double itemHeight =
+        (MediaQuery.of(context).size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = MediaQuery.of(context).size.width / 2;
     return Scaffold(
       backgroundColor: ColorConstant().backgroundColor,
       appBar: _appBar(context),
       body: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Good morning,',
-                style: context.baslik,
-              ),
-              Text(
-                'Zafer!',
-                style: context.baslik,
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(context.dynamicSize(0.007)),
-                child: Column(
-                  children: [
-                    _categoriesBox(
-                        'Recent Orders',
-                        _currentCategoryIndex == Categories.RECENT_ORDER
-                            ? true
-                            : false,
-                        Categories.RECENT_ORDER),
-                    CustomSizedBox(
-                      height: 0.06,
+          _wellcomeMessage(),
+          Expanded(
+            child: Row(
+              children: [
+                _leftCategories(context),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: (itemWidth / itemHeight),
                     ),
-                    _categoriesBox(
-                        'Tea',
-                        _currentCategoryIndex == Categories.TEA ? true : false,
-                        Categories.TEA),
-                    CustomSizedBox(
-                      height: 0.06,
-                    ),
-                    _categoriesBox(
-                        'Coffee',
-                        _currentCategoryIndex == Categories.COFFEE
-                            ? true
-                            : false,
-                        Categories.COFFEE),
-                  ],
+                    shrinkWrap: false,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 40,
+                              child: Container(
+                                color: Colors.grey,
+                                width: 200,
+                                height: 200,
+                              ),
+                            ),
+                            Positioned(
+                              left: 13,
+                              top: 20,
+                              child: Container(
+                                width: 150,
+                                height: 100,
+                                color: Colors.red,
+                              ),
+                            ),
+                            Positioned(
+                              left: 55,
+                              child: Container(
+                                width: 70,
+                                height: 70,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Positioned(
+                              top: 150,
+                              left: 25,
+                              child: Text('Drink Name'),
+                            ),
+                            Positioned(
+                              top: 200,
+                              left: 25,
+                              child: Icon(Icons.headset_sharp),
+                            ),
+                            Positioned(
+                              top: 200,
+                              left: 120,
+                              child: Text('Price'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: 16,
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 10,
-                child: Container(
-                  color: Colors.amber,
-                  width: double.infinity,
-                  height: 300,
-                ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
       bottomNavigationBar: navBarMenu(context),
+    );
+  }
+
+  Padding _leftCategories(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(context.dynamicSize(0.003)),
+      child: Column(
+        children: [
+          _categoriesBox(
+              'Recent Orders',
+              _currentCategoryIndex == Categories.RECENT_ORDER ? true : false,
+              Categories.RECENT_ORDER),
+          CustomSizedBox(
+            height: 0.08,
+          ),
+          _categoriesBox(
+              'Tea',
+              _currentCategoryIndex == Categories.TEA ? true : false,
+              Categories.TEA),
+          CustomSizedBox(
+            height: 0.08,
+          ),
+          _categoriesBox(
+              'Coffee',
+              _currentCategoryIndex == Categories.COFFEE ? true : false,
+              Categories.COFFEE),
+        ],
+      ),
+    );
+  }
+
+  Column _wellcomeMessage() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomMessageText(
+          message: 'Good morning,',
+        ),
+        CustomMessageText(
+          message: 'Jennifer!',
+        ),
+      ],
     );
   }
 
@@ -102,7 +159,7 @@ class _HomeViewState extends State<HomeView> {
 
   Container navBarMenu(BuildContext context) {
     return Container(
-      height: context.dynamicHeight(0.11),
+      height: context.dynamicHeight(0.08),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -110,7 +167,7 @@ class _HomeViewState extends State<HomeView> {
             blurRadius: 10,
           )
         ],
-        color: ColorConstant().backgroundColor,
+        color: ColorConstant().menuColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
